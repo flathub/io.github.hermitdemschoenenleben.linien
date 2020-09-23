@@ -20,6 +20,7 @@ modules:
   - python3-paramiko.json
 
   # we used to build pyqt on our own here, but this build caused trouble with the pyqtgraph widget being transparent on some systems.
+  # On other systems it caused wayland to crash...
   # Therefore, we just use the x86_64 wheel here...
   - name: pyqt-x86_64
     buildsystem: simple

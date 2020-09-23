@@ -11,79 +11,28 @@ finish-args:
   - --device=dri
 
 modules:
-  - name: sip
-    config-opts:
-      - --no-dist-info
-      - --no-stubs
-      - --bindir=/app/bin
-      - --destdir=/app/lib/python3.7/site-packages
-      - --incdir=/app/include
-      - --pyidir=/app/lib/python3.7/site-packages
-      - --sipdir=/app/share/sip
-      - --sip-module=PyQt5.sip
-    sources:
-      - type: archive
-        url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.24/sip-4.19.24.tar.gz
-        sha256: edcd3790bb01938191eef0f6117de0bf56d1136626c0ddb678f3a558d62e41e5
-      - type: script
-        commands:
-          - processed=`sed -e 's|--prefix=/app||' <<< $@`
-          - python3 configure.py $processed
-        dest-filename: configure
-    cleanup:
-      - /bin
-      - /include
-
-  - name: pyqt5
-    config-opts:
-      - --assume-shared
-      - --concatenate
-      - --confirm-license
-      - --no-designer-plugin
-      - --no-dist-info
-      - --no-docstrings
-      - --no-qml-plugin
-      - --no-qsci-api
-      - --no-stubs
-      - --no-tools
-      - QMAKE_CFLAGS_RELEASE='-I/usr/include/python3.7m/'
-      - QMAKE_CXXFLAGS_RELEASE='-I/usr/include/python3.7m/'
-    build-options:
-      arch:
-        i386:
-          config-opts:
-            - --enable=QtCore
-            - --enable=QtGui
-            - --enable=QtNetwork
-            - --enable=QtWidgets
-            - --enable=QtOpenGL
-        x86_64:
-          config-opts:
-            - --enable=QtCore
-            - --enable=QtGui
-            - --enable=QtNetwork
-            - --enable=QtWidgets
-            - --enable=QtOpenGL
-    sources:
-      - type: archive
-        url: https://files.pythonhosted.org/packages/1d/31/896dc3dfb6c81c70164019a6cbba6ab037e3af7653d9ca60ccc874ee4c27/PyQt5-5.15.1.tar.gz
-        sha256: d9a76b850246d08da9863189ecb98f6c2aa9b4d97a3e85e29330a264aed0f9a1
-      - type: script
-        commands:
-          - processed=`sed -e 's|prefix|sysroot|' <<< $@`
-          - python3 configure.py $processed
-        dest-filename: configure
-    cleanup:
-      - /share/sip
-
   - python3-cython.json
   - python3-wheel.json
   - python3-numpy.json
-  #- lapack.json
   - python3-scipy.json
   - python3-stuff.json
   - python3-pyqtgraph.json
   - python3-paramiko.json
+
+  # we used to build pyqt on our own here, but this build caused trouble with the pyqtgraph widget being transparent on some systems.
+  # Therefore, we just use the x86_64 wheel here...
+  - name: pyqt-x86_64
+    buildsystem: simple
+    sources:
+      - type: file
+        url: https://files.pythonhosted.org/packages/4c/bb/7fce18fbe0275d7a3e069a306d8f4662c77eda30ec6780634fd4a7ee50ce/PyQt5-5.15.1-5.15.1-cp35.cp36.cp37.cp38.cp39-abi3-manylinux2014_x86_64.whl
+        sha256: b1ea7e82004dc7b311d1e29df2f276461016e2d180e10c73805ace4376125ed9
+      - type: file
+        url: https://files.pythonhosted.org/packages/31/24/f887203677955ba4d5d4efe9176ac7ed2bf84efce8c243ab91e63183ad9e/PyQt5_sip-12.8.1-cp37-cp37m-manylinux1_x86_64.whl
+        sha256: a1b8ef013086e224b8e86c93f880f776d01b59195bdfa2a8e0b23f0480678fec
+    build-commands:
+      - pip3 install PyQt*.whl --target=/app/lib/python3.7/site-packages
+
   - python3-linien.json
 
   - name: metadata

@@ -10,8 +10,7 @@
         {
             "type": "git",
             "url": "https://github.com/hermitdemschoenenleben/linien.git",
-            "tag":  "v0.2.2",
-            "commit": "502cbe95a0efa22d3e6ffe066f321740f1866457"
+            "commit": "8b0259a3462604b69e7b6cf8b1fdd1bd46ae98a6"
         }
     ]
 }

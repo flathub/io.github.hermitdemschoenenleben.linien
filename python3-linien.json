@@ -2,15 +2,19 @@
     "name": "python3-linien",
     "buildsystem": "simple",
     "build-commands": [
-        "echo '0.2.3' > linien/VERSION",
-        "echo '' > client_requirements",
-        "python3 setup_client.py install --prefix=${FLATPAK_DEST}"
+        "echo '0.3.0' > linien/VERSION",
+        "python3 setup_client_and_gui.py install --prefix=${FLATPAK_DEST}"
+
     ],
     "sources": [
         {
             "type": "git",
             "url": "https://github.com/hermitdemschoenenleben/linien.git",
-            "commit": "8b0259a3462604b69e7b6cf8b1fdd1bd46ae98a6"
+            "commit": "f24f6d3e81beb101eae1a4eb6ddefb34edf16dc4"
+        },
+        {
+            "type": "file",
+            "path": "setup_client_and_gui.py"
         }
     ]
 }

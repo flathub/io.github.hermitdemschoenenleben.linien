@@ -12,9 +12,7 @@ finish-args:
 
 modules:
   - python3-cython.json
-  - python3-wheel.json
-  - python3-numpy.json
-  - python3-scipy.json
+  - python3-lapack-numpy-scipy.json
   - python3-stuff.json
   - python3-pyqtgraph.json
   - python3-paramiko.json

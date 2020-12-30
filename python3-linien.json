@@ -2,7 +2,7 @@
     "name": "python3-linien",
     "buildsystem": "simple",
     "build-commands": [
-        "echo '0.3.0' > linien/VERSION",
+        "echo '0.3.1' > linien/VERSION",
         "python3 setup_client_and_gui.py install --prefix=${FLATPAK_DEST}"
 
     ],
